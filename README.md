@@ -4,7 +4,7 @@
 
 ### What is it:
 
-Command line tool to use convert image to text using azure cloud ocr. 
+Textual interface tool used to convert scanned image to text using 'azure cloud ocr'. 
 
 With 'google cloud vision ocr' as backup (no tables in free version, lower quality ocr than azure).
 
@@ -12,14 +12,21 @@ You need free azure account (and credit card, but won't be charged if you are un
 
 You can use azure 12 months for free, then you have to pay $1 for 1000 images. You **must move to** pay as you go (basic supscription - $0) after first month, or it will not work after month. Be careful not to go over free amount of units.
 
-(With regards to pages, azure ai vision(ocrv1), can ocr max in 20 Images per minute, 5k per month for free tier). 
+azure-ai-vision-imageanalysis is used for text (option 1 in the menu)  
+
+azure-ai-documentintelligence` is used for azure table recognition (option 2 in the menu).  
+
+there are other options for tables recognition (manual table detection), but it is not as good.  
+
+(With regards to pages, azure ai vision(az1), can ocr max in 20 Images per minute, 5k per month for free tier). 
 
 ### How to use it:
 
-Download zip file, (click on it, then on arrow pointing down), uncompress.
+Download 7z file, (click on it, then on arrow pointing down), uncompress.
 
 Put pdf file in 'ocr' folder, click on 'start ocr.sh' (linux), or 'start ocr.bat' (windows). for windows copy bat file from 'others' folder to root. windows is not as much supported as linux.
 
+Files will be first converted to images, which you can edit if you wish. Press enter to continue. They will be deskewed, and then ocr-ed.
 
 ## setting azure v1 (no tables, cheaper)
 
@@ -81,6 +88,17 @@ After first month, you have to switch to pay mode, but they will not bill you un
 - TABLES INLCUDED:  
   - All Prebuilt Models: Document, Layout, ... 	$10 per 1,000 pages
 
+## setting others
+
+check spec.md in code_files dir `## 2. Installation` for details of installing 'google vision' and tesseract, and py files too.
+
+for tesseract install packages, for example of void linux:
+
+`sudo xbps-install -S tesseract-ocr-bos tesseract-ocr-hrv tesseract-ocr-srp tesseract-ocr-srp_latn tesseract-ocr-eng tesseract-ocr-script-Cyrillic`
+
+on some distributions it is called tesseract, and on some others tesseract-ocr.
+
+quality of ocr: azure > google vision > tesseract
 
 ## using the program
 
