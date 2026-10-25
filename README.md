@@ -1,2 +1,287 @@
 # ocr-mix
-Use azure ocr, google vision or tesseract to ocr scanned pages, supports tables, textual interface
+
+2026-10-25-04-47-00
+
+### What is it:
+
+Command line tool to use convert image to text using azure cloud ocr. 
+
+With 'google cloud vision ocr' as backup (no tables in free version, lower quality ocr than azure).
+
+You need free azure account (and credit card, but won't be charged if you are under generous limit, see below for details), and python.
+
+You can use azure 12 months for free, then you have to pay $1 for 1000 images. You **must move to** pay as you go (basic supscription - $0) after first month, or it will not work after month. Be careful not to go over free amount of units.
+
+(With regards to pages, azure ai vision(ocrv1), can ocr max in 20 Images per minute, 5k per month for free tier). 
+
+### How to use it:
+
+Download zip file, (click on it, then on arrow pointing down), uncompress.
+
+Put pdf file in 'ocr' folder, click on 'start ocr.sh' (linux), or 'start ocr.bat' (windows). for windows copy bat files from 'others' folder to root. windows is not as much supported as linux.
+
+
+## setting azure v1 (no tables, cheaper)
+
+You need phone number (not virtual), and credit card number. “Your
+credit card will not be charged, or might be charged for $1 for testing
+if it real, and $1 will charged back"
+
+If you haven’t already:  
+- Create free azure account  
+- go to https://portal.azure.com/#home
+- click on computer vision on the left
+- click on + to create new resource in "computer vision"  
+  - subscription: something like Azure subscription  
+  - resource group: create new, something like: ocr-test1  
+  - region: I selected North EU  
+  - name: enter what ever you want  
+  - pricing: select free f0 (20 calls per minute, 5k per month)
+
+PRICING:  
+First month:
+Free (F0) - Web/Container	All:
+- 5,000 free transactions per month 20 transactions per minute
+
+After first month, you have to switch to pay mode, but they will not bill you unless you go over limit:  
+- 0-1M transactions - $1 per 1,000 transactions
+
+ 
+When you click on you created resurce, you will see your **key(s) and
+endpoint.**
+You will need **one key**, doesn’t matter which one, and **endpoint**, to use the program.
+
+## setting azure v1 in python (no tables, cheaper)
+
+if you haven’t already, install ‘azure-ai-vision-imageanalysis’ using
+pip:  
+`pip install -U azure-ai-vision-imageanalysis`
+
+Note: some versions of azure-ocr are not available for free tiers.
+
+## setting azure v2 in python (tables, more expensive)
+
+`pip install -U azure-ai-documentintelligence`  
+- on azure ocr portal create "document inteligence" resource. Location: north eu, tier: free  
+  
+there are two models:
+- prebuilt-read, which is cheaper, does not recognize tables, and has **worse** ocr recognition  
+- prebuilt-layout, more expensive, better ocr of characters than prebulit-layout, recognizes tables  
+
+choose model by editinig "azure2_ocr.py", and setting var st_model= to prebulit-read, or prebuilt-layout
+
+PRICING:
+First month free:
+- Free - Web/Container1, 	0 - 500 pages free per month  
+
+After first month, you have to switch to pay mode, but they will not bill you unless you go over limit:  
+- TEXT ONLY:
+  - 0-1M pages - $1.50 per 1,000 pages 
+  - 1M+ pages - $0.60 per 1,000 pages 
+- TABLES INLCUDED:  
+  - All Prebuilt Models: Document, Layout, ... 	$10 per 1,000 pages
+
+
+## using the program
+
+- download zip, unpack,  
+- open azure_ocr1_text.py in notepad++, or notepad,  
+- enter your **key and endpoint**  for computer(ai) vision for text1,
+- open azure_ocr2_tables.py in notepad++, or notepad,  nd enter key and endpoint for document intelligence
+- put images created from pdf into 'ocr' folder  
+- double click bat file needed for text files, or another bat file for tables. 
+  ("_zocr_files_in_ocr_folder v2" lines output to output.txt could use improvement, though)  
+
+*Note:  
+
+What happens after I upgrade?  
+You get 12 months of popular services for free, plus more
+than 25 products that are always free. Beyond what's free, you
+pay only for what you use each month and you can cancel any
+time!
+
+What happens to the Azure credit if I upgrade before 30 days?  
+Your remaining credit will still be available for the full 30 days
+after you started your Azure free account.
+
+Do I have to pay after I upgrade?  
+As long as you use the the product quantities that are
+included for free, you won't have to pay anything.
+
+What happens with my products if I do not upgrade?  
+If you don't upgrade by the end of 30 days or before you've
+used your Azure credit (whichever occurs first), you won't be
+able to access any Azure services.
+
+
+
+
+
+https://azure.microsoft.com/en-us/free/free-account-faq  
+How do I get popular services free for 12 months?  
+
+When you create your Azure free account, you start getting monthly free amounts of certain types of services. **If you move to pay-as-you-go pricing** within 30 days or after you’ve used your credit, you’ll continue to receive monthly free amounts of popular services until 12 months after you created your account. After that, if you’re using any of these services, they’ll continue to run and you’ll be billed for them at pay-as-you-go rates.
+
+
+
+https://azure.microsoft.com/en-us/pricing/free-services#richtext-oc4492  
+
+12 months free services is available only to new customers who have not previously had an Azure account or received 12 months of free services. It is not currently available to customers who sign up directly for pay as you go in China and India. Customers who try Azure free **must move to pay as you go** within 30 days to continue receiving 12 months free services.
+
+
+https://learn.microsoft.com/en-us/azure/ai-services/translator/translator-faq  
+**Each translation counts as a separate translation**
+
+
+more info here MS:  
+https://azure.microsoft.com/en-us/free/free-account-faq/  
+https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/avoid-charges-free-account  
+https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/check-free-service-usage  
+https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/upgrade-azure-subscription  
+
+pricing, after free:  
+https://azure.microsoft.com/en-us/pricing/details/ai-document-intelligence/ (prebuilt-model is more expensive than prebuilt-read)  
+https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/model-overview (v4, prebuilt-model has tables, prebuilt-read does not)  
+
+https://azure.microsoft.com/en-us/pricing/details/cognitive-services/computer-vision/ (old, no tables recognition)  
+
+
+relevant services:  
+https://azure.microsoft.com/en-us/pricing/free-services#richtext-oc4492  
+
+|Azure service|Description|Type|Free monthly amount|Free period 
+|---|---|---|----|---
+|Computer Vision|Extract rich information from images to categorize and process visual data, no tables|	|5,000 transactions for each S1, S2, and S3 tier|12 months 
+|Azure AI Document Intelligence|Automate the extraction of text, key/value pairs, and tables from your documents.|AI + machine learning|500 pages S0 tier|12 months
+|Speaker Recognition|Accurately verify and identify speakers by their unique voice characteristics.|AI + machine learning|10,000 transactions each of speaker verification, speaker identification, and voice storage|Always
+|Speech to Text|Transcribe spoken audio to text.|AI + machine learning|5 audio hours each of Standard, Custom, and Conversation Transcription Multichannel Audio, 1 Custom endpoint hosting model|Always 
+|Speech Translation|Integrate real-time speech translation into your app.|AI + machine learning|5 audio hours Standard|Always 
+|Text to Speech|Build apps that convert text to lifelike speech.|AI + machine learning|5 million characters Standard, 500,000 characters Neural, and hosting model|Always 
+|Azure AI Translator |Add real-time, multi-language text translation to your apps, websites, and tools. |AI + machine learning |2 million characters S0 tier |12 months 
+
+
+todo:  
+write proper howto  
+
+## Changes:
+
+2026-10-25-04-47-00
+bugfixes
+
+2026-08-11-14-47-58
+- added recognition for other kind of middle dot, also replaced with -
+
+2026-07-22-15-28-21
+- reorganized files, moved common settings for common files.py.
+- windows should be supported again. check folder others.
+- added versions:
+  - azure3 - use text format ocr + manual table detection - don't use this, use azure 1 for text, azure 2 for tables
+  - google vision 2 - manual table detection (if azure 2 is unavailable, and you need basic table detection. does only basic table detection)
+  - tesseract 2 - manual table detection -- see google vision 2
+- added tag: 'merge: yes' to table meta tags, in gridtables (azure 2, azure 3, gvision 2, tesseract 2), to merge table to previous one. there cannot be text between 'to be merged' tables. default tag is 'merge: no' change to 'merge: yes' to join to previous table. obviously, they should have the same number of columns.
+
+
+2026-07-08-06-19-43  
+-fixed table positions (for azure2, and text_and_gridtables_to_docx)
+
+2026-07-07-14-18-07  
+-minor corrections
+
+2026-07-07-11-41-24  
+added feature to merge pandoc tables when table and columns are of diffrent width:
+from geany, setup run command (key binding f5) to use this command line
+
+sh -c "python /home/b/data/p_ocr_mix/_geany_text_and_gridtables_to_docx.py '%f' "  
+
+(adjust path to py file). when you txt save file in geany, and press f5 it will convert txt (even with pandoc tables)  
+Added feature to '_geany_text_and_gridtables_to_docx.py' to auto-merge tables that have **same** number of columns, but different column width to one table, and are edited to be continous, example
+
+removed table example. use 'merge: yes', to merge table to previous one. there cannot be text between 'to be merged' tables
+
+you have to remove top +----+ ... line from the next table, so the program recognizes them as single table. New table will have the same table width and columns width as the first table. 
+
+
+
+-2026-07-02-13-30-38  
+minor changes  
+
+-2026-05-13-1  
+added export to pandoc gridtables for azure-ocr-tables. it adds column widht, row height and text alingment info if available, using comments.  
+you can convert using geany_convert.py from the zip file.  
+Included in geany comment is latin -> cyrillic script and vice versa.  
+
+
+-2026-04-18-1  
+added '-progress' to process of converting pdf pages to png images.
+
+-2026-04-15-1  
+added default to menu, (1), starts when press just enter.  
+
+-2026-04-07-1  
+minor renaming of files.
+
+-2026-04-06-1  
+added support for google cloud vision ocr, under 1000 pages per month free, no tables support (in free)  
+see readme.txt for setting google cloud vision.  
+added log.txt, which logs how many pages did each ocr script "_ ocr_ ", to disable set logfiles=0 in _call_ocr.sh  
+added deskew, to disable set deskew=0 in _call_ocr.sh  
+windows version is less supported, does not have deskew, or log implemented. if there is need, I will add it. maybe. probably.  
+previous version of zip is moved to old folder
+
+-2026-4-2-1  
+using png instead of tiff, cause azure does not accept tiff anymore?  
+updated _azaure_ocr2.py to not add newline (after line), if the line starts with '·' or '-' (list item)
+
+-2026-03-19-1  
+added replace '·' at start with '-', in _remove_newlines1.py
+
+-2026-03-18-1  
+added _geanu_txt_to_docx.py to 'convert txt to docx' and 'convert txt to docx and mail' from geany using build menu.  
+remember to save file first in geany.  
+
+-2026-03-14-1  
+improved support for tables. you can also edit settings using variables in _azure_ocr2.py, at the start of the file.
+
+-2026-02-24-3    
+minor changes in output fomatting
+
+-2026-02-24-2  
+add 4 seconds pause between sending single file to azure1.py, to obey max 20 files per second.
+
+-2026-02-24-1  
+slight changes in linux.sh files, added bin/bash line  
+
+-2026-02-06-1  
+changed _azure_ocr1.py, should not mix lines now. you should deskew scanned document first, if it is heavily rotated..
+
+
+-2025-12-31-1  
+added linux version of 2 files  
+added () to sort ...
+
+-2025-12-15-1  
+added newline after table
+
+-2025-09-18-1
+added to azure2_ocr.py: pip install -U python-docx
+
+-2025-09-17-01  
+added v2, which uses two possible models, prebuilt-layout and prebuilt-read  
+prebuilt-layout (default) recognizes tables.  
+v2 uses document intelligence. 
+v1 (previous version) uses ai vision  
+
+-2025-09-09-1  
+small update to web page, added some links
+
+-2025-08-03-1  
+small updates, use -U to update python lib
+
+-2024-08-05-1
+replace dot with newline  
+
+-2024-06-30-1  
+use azure ocr from python  
+
+2024-06-26-1 changes  
+-now with linux support. open .py in text editor for more info.
