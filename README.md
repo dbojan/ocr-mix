@@ -18,7 +18,7 @@ You can use azure 12 months for free, then you have to pay $1 for 1000 images. Y
 
 Download zip file, (click on it, then on arrow pointing down), uncompress.
 
-Put pdf file in 'ocr' folder, click on 'start ocr.sh' (linux), or 'start ocr.bat' (windows). for windows copy bat files from 'others' folder to root. windows is not as much supported as linux.
+Put pdf file in 'ocr' folder, click on 'start ocr.sh' (linux), or 'start ocr.bat' (windows). for windows copy bat file from 'others' folder to root. windows is not as much supported as linux.
 
 
 ## setting azure v1 (no tables, cheaper)
